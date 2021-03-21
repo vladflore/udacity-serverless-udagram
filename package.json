@@ -1,0 +1,35 @@
+{
+  "name": "udacity-serverless-udagram",
+  "version": "1.0.0",
+  "description": "udacity serverless udagram app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "source-map-support": "^0.5.11",
+    "uuid": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.17",
+    "@types/node": "^10.14.4",
+    "@types/uuid": "^8.3.0",
+    "aws-sdk": "^2.433.0",
+    "serverless-aws-documentation": "^1.1.0",
+    "serverless-reqvalidator-plugin": "^1.0.3",
+    "serverless-webpack": "^5.2.0",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.4.1",
+    "webpack": "^4.29.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vladflore/udacity-serverless-udagram.git"
+  },
+  "author": "Vlad Flore",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vladflore/udacity-serverless-udagram/issues"
+  },
+  "homepage": "https://github.com/vladflore/udacity-serverless-udagram#readme"
+}
