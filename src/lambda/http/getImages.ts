@@ -10,7 +10,7 @@ const imagesTable = process.env.IMAGES_TABLE || ''
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 
   console.log('Caller event', event)
-  const groupId = event.pathParameters?.groupId || ''
+  const groupId = event.pathParameters?.groupId  || ''
   const validGroupId = await groupExists(groupId)
 
   if (!validGroupId) {
