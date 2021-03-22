@@ -1,0 +1,5 @@
+curl https://hxcn1yt5ki.execute-api.eu-central-1.amazonaws.com/dev/groups/e0ca10f8-a0e7-4209-ac25-52106aaaa042/images | jq
+
+curl https://hxcn1yt5ki.execute-api.eu-central-1.amazonaws.com/dev/groups | jq
+
+curl -X POST https://hxcn1yt5ki.execute-api.eu-central-1.amazonaws.com/dev/groups/e0ca10f8-a0e7-4209-ac25-52106aaaa042/images -d '{"title":"a very cute dog"}' | jq
