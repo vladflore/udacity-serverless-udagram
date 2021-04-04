@@ -3,3 +3,7 @@ curl https://hxcn1yt5ki.execute-api.eu-central-1.amazonaws.com/dev/groups/e0ca10
 curl https://hxcn1yt5ki.execute-api.eu-central-1.amazonaws.com/dev/groups | jq
 
 curl -X POST https://hxcn1yt5ki.execute-api.eu-central-1.amazonaws.com/dev/groups/e0ca10f8-a0e7-4209-ac25-52106aaaa042/images -d '{"title":"a very cute dog"}' | jq
+
+curl https://ndwbpid690.execute-api.eu-central-1.amazonaws.com/dev/groups \
+-H 'Content-Type: application/json' -H 'Authorization: Bearer 123' \
+-d '{"name":"dogs group","description":"group containing images with dogs"}'
