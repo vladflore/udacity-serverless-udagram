@@ -7,7 +7,7 @@ plugins:
   - serverless-aws-documentation
   - serverless-offline
   - serverless-dynamodb-local
-
+  - serverless-iam-roles-per-function
 package:
   # set this before deploying: export NODE_OPTIONS=--max_old_space_size=8192
   individually: true
@@ -142,6 +142,15 @@ functions:
           method: get
           path: groups/{groupId}/images
           cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.IMAGES_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.GROUPS_TABLE}
 
   CreateImage:
     handler: src/lambda/http/createImage.handler
@@ -351,32 +360,6 @@ resources:
       Properties:
         DisplayName: Image bucket topic
         TopicName: ${self:custom.topicName}
-
-    # ImagesSearch:
-    #   Type: AWS::Elasticsearch::Domain
-    #   Properties:
-    #     ElasticsearchVersion: '6.3'
-    #     DomainName: images-search-${self:provider.stage}
-    #     ElasticsearchClusterConfig:
-    #       DedicatedMasterEnabled: false
-    #       InstanceCount: '1'
-    #       ZoneAwarenessEnabled: false
-    #       InstanceType: t2.small.elasticsearch
-    #     EBSOptions:
-    #       EBSEnabled: true
-    #       Iops: 0
-    #       VolumeSize: 10
-    #       VolumeType: 'gp2'
-
-    #     AccessPolicies:
-    #       Version: '2012-10-17'
-    #       Statement:
-    #         -
-    #           Effect: Allow
-    #           Principal:
-    #             AWS: '*'
-    #           Action: 'es:*'
-    #           Resource: '*'
 
     KMSKey:
       Type: AWS::KMS::Key
