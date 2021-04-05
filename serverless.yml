@@ -7,6 +7,11 @@ plugins:
   - serverless-aws-documentation
   - serverless-offline
   - serverless-dynamodb-local
+
+package:
+  # set this before deploying: export NODE_OPTIONS=--max_old_space_size=8192
+  individually: true
+
 provider:
 
   tracing:
