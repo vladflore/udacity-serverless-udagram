@@ -5,8 +5,11 @@ import * as uuid from 'uuid'
 import middy from '@middy/core'
 import cors from '@middy/http-cors'
 
-const docClient = new AWS.DynamoDB.DocumentClient()
-const s3 = new AWS.S3({
+const AWSXRay = require('aws-xray-sdk')
+const XAWS = AWSXRay.captureAWS(AWS)
+
+const docClient = new XAWS.DynamoDB.DocumentClient()
+const s3 = new XAWS.S3({
     signatureVersion: 'v4'
 })
 

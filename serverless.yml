@@ -8,6 +8,11 @@ plugins:
   - serverless-offline
   - serverless-dynamodb-local
 provider:
+
+  tracing:
+    lambda: true
+    apiGateway: true
+
   name: aws
   runtime: nodejs12.x
 
@@ -25,7 +30,7 @@ provider:
     THUMBNAILS_S3_BUCKET: serverless-udagram-thumbnail-${self:provider.account}-${self:provider.stage}
     AUTH_0_SECRET_ID: Auth0Secret-${self:provider.stage}
     AUTH_0_SECRET_FIELD: auth0Secret
-    IS_OFFLINE: true
+    IS_OFFLINE: false
 
   iamRoleStatements:
     - Effect: Allow
