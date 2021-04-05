@@ -4,6 +4,6 @@ curl https://hxcn1yt5ki.execute-api.eu-central-1.amazonaws.com/dev/groups | jq
 
 curl -X POST https://hxcn1yt5ki.execute-api.eu-central-1.amazonaws.com/dev/groups/e0ca10f8-a0e7-4209-ac25-52106aaaa042/images -d '{"title":"a very cute dog"}' | jq
 
-curl https://ndwbpid690.execute-api.eu-central-1.amazonaws.com/dev/groups \
--H 'Content-Type: application/json' -H 'Authorization: Bearer 123' \
+curl http://localhost:3003/dev/groups \
+-H 'Content-Type: application/json' -H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Il95U21CVFhnNi1TSHhEc1V0eFFTUCJ9.eyJpc3MiOiJodHRwczovL3VkYWNpdHktc2VydmVybGVzcy11ZGFncmFtLmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwNjU2Njg5OTI2NDgyODAzNDMwMSIsImF1ZCI6InJOajNpZmJjaVVzQmc1R3VKYmM4TjVubmlramFtazRyIiwiaWF0IjoxNjE3NjQ4MzA1LCJleHAiOjE2MTc3MzQ3MDUsImF0X2hhc2giOiJ2NXJPZlB2Rkp5SU5abWdLSDlic2tBIiwibm9uY2UiOiI4T3ZRQ0pmNU1tUFFwZmVlaHF6ZlB0T3JGS25mSTBJSSJ9.bj7adhamyaaWBcHOWonz2SmescOziR6Pkoa-KB4n3jDIu60wHkI_dnwdR0qRlFd3_FwQhu-BhX4rBYnlt7PcJ3ApeftXTFsbrgADRn8tRXwLi1PQVi8aULEsqh6PR1od4UcafaXd5fuA5hjlNYRTkoSahfjukCDzYoI-Y64CWMVVnMWxaFq_8TOHIgfLjmmkNsISX2vMtIM32Y2wgd1gqxA5bOaJr4Tm-uKMdvw4ME2Sbvr91b_TD5MPI-hlVUsObZBQcfvbAS4zJngnffzyXCS0iuIH1CC-KjByvSviayKmPwF_Xdm7qaxx1cD44Hj1KICw8sHOM7slUfUt-oQHVw' \
 -d '{"name":"dogs group","description":"group containing images with dogs"}'

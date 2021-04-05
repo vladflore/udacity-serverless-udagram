@@ -5,7 +5,8 @@ plugins:
   - serverless-webpack
   - serverless-reqvalidator-plugin
   - serverless-aws-documentation
-
+  - serverless-offline
+  - serverless-dynamodb-local
 provider:
   name: aws
   runtime: nodejs12.x
@@ -24,6 +25,7 @@ provider:
     THUMBNAILS_S3_BUCKET: serverless-udagram-thumbnail-${self:provider.account}-${self:provider.stage}
     AUTH_0_SECRET_ID: Auth0Secret-${self:provider.stage}
     AUTH_0_SECRET_FIELD: auth0Secret
+    IS_OFFLINE: true
 
   iamRoleStatements:
     - Effect: Allow
@@ -67,6 +69,16 @@ provider:
 
 custom:
   topicName: imagesTopic-${self:provider.stage}
+
+  serverless-offline:
+    httpPort: 3003
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+    stages:
+      - dev
   documentation:
     api:
       info:
