@@ -1,20 +1,18 @@
-import {CustomAuthorizerEvent, CustomAuthorizerHandler, CustomAuthorizerResult} from 'aws-lambda'
+import {CustomAuthorizerEvent, CustomAuthorizerResult} from 'aws-lambda'
 
 import {verify} from 'jsonwebtoken'
 import {JwtToken} from "../../auth/JwtToken";
-import * as AWS from 'aws-sdk'
+import middy from '@middy/core'
+import secretsManager from '@middy/secrets-manager'
 
 const secretId = process.env.AUTH_0_SECRET_ID || ''
 const secretField = process.env.AUTH_0_SECRET_FIELD || ''
 
-const secretsManager = new AWS.SecretsManager()
-
-let cachedSecret: string
-
-export const handler: CustomAuthorizerHandler = async (event: CustomAuthorizerEvent): Promise<CustomAuthorizerResult> => {
+export const handler = middy(async (event: CustomAuthorizerEvent, context): Promise<CustomAuthorizerResult> => {
 
     try {
-        const decodedToken = await verifyToken(event.authorizationToken)
+        // @ts-ignore
+        const decodedToken = verifyToken(event.authorizationToken, context.AUTH0_SECRET[secretField])
         console.log('User was authorized')
         return {
             principalId: decodedToken.sub,
@@ -45,30 +43,25 @@ export const handler: CustomAuthorizerHandler = async (event: CustomAuthorizerEv
             }
         }
     }
+})
 
-    async function verifyToken(authorizationHeader: string | undefined): Promise<JwtToken> {
-        if (!authorizationHeader) {
-            throw new Error('No authorization header')
-        }
-        if (!authorizationHeader.toLocaleLowerCase().startsWith('bearer')) {
-            throw new Error('Invalid authorization header')
-        }
-        const parts = authorizationHeader.split(' ')
-        const token = parts[1]
-
-        const secretObject = await getSecret()
-        const secret = secretObject[secretField]
-
-        return verify(token, secret) as JwtToken
+function verifyToken(authorizationHeader: string | undefined, secret: string): JwtToken {
+    if (!authorizationHeader) {
+        throw new Error('No authorization header')
     }
-
-    async function getSecret() {
-        if (cachedSecret) return cachedSecret
-        const data = await secretsManager.getSecretValue({
-            SecretId: secretId
-        }).promise()
-        cachedSecret = data.SecretString || ''
-        return JSON.parse(cachedSecret)
+    if (!authorizationHeader.toLocaleLowerCase().startsWith('bearer')) {
+        throw new Error('Invalid authorization header')
     }
+    const parts = authorizationHeader.split(' ')
+    const token = parts[1]
 
+    return verify(token, secret) as JwtToken
 }
+
+handler.use(secretsManager({
+    setToContext: true,
+    cacheExpiry: 60000,
+    fetchData: {
+        AUTH0_SECRET: secretId
+    }
+}))
