@@ -1,19 +1,23 @@
-import {APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult} from 'aws-lambda'
 import 'source-map-support/register'
+
+import express from 'express';
+// @ts-ignore
+import * as awsServerlessExpress from 'aws-serverless-express'
 import {getAllGroups} from "../../businessLogic/groups";
 
-export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    console.log('Processing event: ', event)
+const app = express()
 
+app.get('/groups', async (_req, res) => {
     const groups = await getAllGroups()
+    res.header('Access-Control-Allow-Origin','*')
+    res.json({
+        items: groups
+    })
+})
 
-    return {
-        statusCode: 200,
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify({
-            items: groups
-        })
-    }
+const server = awsServerlessExpress.createServer(app)
+
+// Pass API Gateway events to the Express server
+exports.handler = (event: any, context: any) => {
+    awsServerlessExpress.proxy(server, event, context)
 }
